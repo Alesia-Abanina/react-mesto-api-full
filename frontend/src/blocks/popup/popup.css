@@ -1,0 +1,17 @@
+.popup {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  position: fixed;
+  align-items: center;
+  font-family: 'Inter', 'Arial', sans-serif;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0 19px 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}

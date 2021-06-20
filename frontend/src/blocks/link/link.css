@@ -1,0 +1,13 @@
+.link {
+  text-decoration: none;
+  color: #FFFFFF;
+  opacity: 1;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  font-size: 18px;
+  line-height: 22px;
+}
+
+.link:hover {
+  opacity: 0.6;
+}

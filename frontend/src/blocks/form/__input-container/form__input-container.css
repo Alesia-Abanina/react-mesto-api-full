@@ -1,0 +1,14 @@
+.form__input-container {
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+@media screen and (min-width: 425px) {
+  .form__input-container {
+    min-width: 358px;
+  }
+}

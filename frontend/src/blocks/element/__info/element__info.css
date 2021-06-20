@@ -1,0 +1,8 @@
+.element__info {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 0 15px 0 21px;
+  min-height: 80px;
+  align-content: center;
+  justify-content: stretch;
+}

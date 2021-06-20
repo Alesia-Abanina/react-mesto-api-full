@@ -1,0 +1,10 @@
+.button {
+  cursor: pointer;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  outline: none;
+}
+
+.button:hover:enabled {
+  opacity: 0.6;
+}
