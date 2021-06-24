@@ -8,17 +8,17 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       headers: this._headers
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
-  setUserInfo({name, about}) {
+  setUserInfo({ name, about }) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
@@ -27,10 +27,10 @@ class Api {
         about: about
       })
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
-  setUserAvatar({avatar}) {
+  setUserAvatar({ avatar }) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
@@ -38,10 +38,10 @@ class Api {
         avatar: avatar
       })
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
-  createCard({name, link}) {
+  createCard({ name, link }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
@@ -50,7 +50,7 @@ class Api {
         link: link
       })
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
   deleteCard(id) {
@@ -58,16 +58,16 @@ class Api {
       method: 'DELETE',
       headers: this._headers,
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
   likeCard(id, isLike) {
-    const method = isLike ? 'PUT': 'DELETE';
+    const method = isLike ? 'PUT' : 'DELETE';
     return fetch(`${this._baseUrl}/cards/likes/${id}`, {
       method: method,
       headers: this._headers,
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
   _processResponse(res) {
@@ -79,9 +79,9 @@ class Api {
 }
 
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-21',
+  baseUrl: 'https://api.mesto.abanina.nomoredomains.monster',
   headers: {
-    authorization: '0cd98bf9-0cd7-4ef0-a57e-b7dd514aead8',
+    // authorization: '0cd98bf9-0cd7-4ef0-a57e-b7dd514aead8',
     'Content-Type': 'application/json'
   }
 });

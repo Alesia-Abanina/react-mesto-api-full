@@ -12,7 +12,7 @@ class Auth {
         email, password
       })
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
   login(email, password) {
@@ -23,7 +23,7 @@ class Auth {
         email, password
       })
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
   checkToken(token) {
@@ -34,7 +34,7 @@ class Auth {
         'Authorization': `Bearer ${token}`,
       }
     })
-    .then((res) => this._processResponse(res));
+      .then((res) => this._processResponse(res));
   }
 
   _processResponse(res) {
@@ -46,7 +46,7 @@ class Auth {
 }
 
 const auth = new Auth({
-  baseUrl: 'https://auth.nomoreparties.co',
+  baseUrl: 'https://api.mesto.abanina.nomoredomains.monster',
   headers: {
     'Content-Type': 'application/json'
   }
