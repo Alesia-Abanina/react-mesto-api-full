@@ -4,7 +4,6 @@ const WrongUserError = require('../errors/wrong-user-err');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .populate('owner')
     .then((cards) => res.send(cards))
     .catch(next);
 };
@@ -40,7 +39,6 @@ module.exports.deleteCardById = (req, res, next) => {
 module.exports.likeCard = (req, res, next) => {
   console.log(`req.user._id='${req.user._id}'`);
   Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
-    .populate('owner')
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным _id не найдена');
@@ -52,7 +50,6 @@ module.exports.likeCard = (req, res, next) => {
 
 module.exports.dislikeCard = (req, res, next) => {
   Card.findByIdAndUpdate(req.params.cardId, { $pull: { likes: req.user._id } }, { new: true })
-    .populate('owner')
     .then((card) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным _id не найдена');
