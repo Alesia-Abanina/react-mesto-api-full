@@ -33,6 +33,7 @@ app.use(requestLogger);
 
 app.use((req, res, next) => {
   const { origin } = req.headers;
+  console.log(`origin='${origin}'`);
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
   }
