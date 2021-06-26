@@ -5,6 +5,6 @@
 
 Бэкенд расположен в директории `backend/`, а фронтенд - в `frontend/`. 
 
-Публичный ip адрес: 20.92.72.62
-Фронтэнд: https://mesto.abanina.nomoredomains.monster
-Бэкэнд: https://api.mesto.abanina.nomoredomains.monster
+- Публичный ip адрес: 20.92.72.62
+- Фронтэнд: https://mesto.abanina.nomoredomains.monster
+- Бэкэнд: https://api.mesto.abanina.nomoredomains.monster
