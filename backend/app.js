@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { errors, celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 const { login, createUser } = require('./controllers/users');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -53,7 +54,7 @@ app.get('/crash-test', () => {
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().min(2).max(30),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), login);
@@ -61,7 +62,13 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    email: Joi.string().required().min(2).max(30),
+    avatar: Joi.string().custom((value, helper) => {
+      if (validator.isURL(value, { require_protocol: true })) {
+        return value;
+      }
+      return helper.message('Invalid URL');
+    }),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 }), createUser);
