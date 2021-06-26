@@ -13,7 +13,6 @@ import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import InfoTooltip from './InfoTooltip';
 import api from '../utils/api';
-import auth from '../utils/auth';
 
 function App() {
   const [cards, setCards] = React.useState([]);
@@ -37,28 +36,36 @@ function App() {
     function tokenCheck() {
       const jwt = localStorage.getItem('jwt');
       if (jwt) {
-        auth.checkToken(jwt)
+        api.checkToken(jwt)
           .then((res) => {
             if (res) {
+              api.setToken(jwt);
               setLoggedIn(true);
-              setEmail(res.data.email);
+              setEmail(res.email);
               history.push("/");
             }
-          });
+          })
+          .catch(err => console.log(err));
       }
     }
 
     tokenCheck();
-    Promise.all([api.getUserInfo(), api.getInitialCards()])
-      .then(([userData, cards]) => {
-        setCurrentUser(userData);
-        setCards(cards);
-      })
-      .catch(err => console.log(err));
+
   }, [history]);
 
+  React.useEffect(() => {
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getInitialCards()])
+        .then(([userData, cards]) => {
+          setCurrentUser(userData);
+          setCards(cards);
+        })
+        .catch(err => console.log(err));
+    }
+  }, [email, loggedIn]);
+
   function handleCardLike(card) {
-    const isLiked = card.likes.some(like => like._id === currentUser._id);
+    const isLiked = card.likes.some(id => id === currentUser._id);
 
     api.likeCard(card._id, !isLiked)
       .then((newCard) => {
@@ -127,10 +134,11 @@ function App() {
   }
 
   function handleLogin(email, password) {
-    auth.login(email, password)
+    api.login(email, password)
       .then((data) => {
         if (data.token) {
           localStorage.setItem('jwt', data.token);
+          api.setToken(data.token);
         }
         setLoggedIn(true);
         setEmail(email);
@@ -144,7 +152,7 @@ function App() {
   }
 
   function handleRegister(email, password) {
-    auth.register(email, password)
+    api.register(email, password)
       .then(() => {
         setIsAuthSuccessful(true);
         history.push('/sign-in');

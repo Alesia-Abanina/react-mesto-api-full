@@ -4,6 +4,10 @@ class Api {
     this._headers = options.headers;
   }
 
+  setToken(token) {
+    this._headers['Authorization'] = `Bearer ${token}`;
+  }
+
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       headers: this._headers
@@ -63,9 +67,45 @@ class Api {
 
   likeCard(id, isLike) {
     const method = isLike ? 'PUT' : 'DELETE';
-    return fetch(`${this._baseUrl}/cards/likes/${id}`, {
+    return fetch(`${this._baseUrl}/cards/${id}/likes`, {
       method: method,
       headers: this._headers,
+    })
+      .then((res) => this._processResponse(res));
+  }
+
+  register(email, password) {
+    return fetch(`${this._baseUrl}/signup`, {
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        email, password
+      })
+    })
+      .then((res) => this._processResponse(res));
+  }
+
+  login(email, password) {
+    return fetch(`${this._baseUrl}/signin`, {
+      mode: 'cors',
+      method: 'POST',
+      headers: this._headers,
+      body: JSON.stringify({
+        email, password
+      })
+    })
+      .then((res) => {
+        return this._processResponse(res)
+      });
+  }
+
+  checkToken(token) {
+    return fetch(`${this._baseUrl}/users/me`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      }
     })
       .then((res) => this._processResponse(res));
   }
@@ -81,7 +121,6 @@ class Api {
 const api = new Api({
   baseUrl: 'https://api.mesto.abanina.nomoredomains.monster',
   headers: {
-    // authorization: '0cd98bf9-0cd7-4ef0-a57e-b7dd514aead8',
     'Content-Type': 'application/json'
   }
 });
