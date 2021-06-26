@@ -2,13 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { errors, celebrate, Joi } = require('celebrate');
-const validator = require('validator');
 const NotFoundError = require('./errors/not-found-err');
 const { login, createUser } = require('./controllers/users');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const validateUrl = require('./errors/url-validator');
 
 require('dotenv').config();
 
@@ -64,12 +64,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().custom((value, helper) => {
-      if (validator.isURL(value, { require_protocol: true })) {
-        return value;
-      }
-      return helper.message('Invalid URL');
-    }),
+    avatar: Joi.string().custom(validateUrl),
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
