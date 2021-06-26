@@ -1,8 +1,8 @@
-class AuthorizationError extends Error {
+class ConflictError extends Error {
   constructor(message) {
     super(message);
     this.statusCode = 409;
   }
 }
 
-module.exports = AuthorizationError;
+module.exports = ConflictError;

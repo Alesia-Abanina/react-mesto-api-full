@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
-const AuthorizationError = require('../errors/authorization-err');
-const AuthenticationError = require('../errors/authentication-err');
+const ConflictError = require('../errors/confict-err');
+const AuthError = require('../errors/auth-err');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
@@ -55,7 +55,7 @@ module.exports.createUser = (req, res, next) => {
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
-        next(new AuthorizationError('Ошибка авторизации'));
+        next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
       }
       next(err);
     });
@@ -92,7 +92,7 @@ module.exports.login = (req, res, next) => {
   User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        throw new AuthenticationError('Неправильный логин или пароль');
+        throw new AuthError('Неправильный логин или пароль');
       }
       const { NODE_ENV, JWT_SECRET } = process.env;
       const token = jwt.sign(
