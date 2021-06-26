@@ -53,6 +53,7 @@ module.exports.createUser = (req, res, next) => {
         password: hash,
       },
     ))
+    .then((user) => User.findById(user._id))
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
