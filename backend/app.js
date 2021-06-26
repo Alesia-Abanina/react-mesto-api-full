@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors')
-const cookieParser = require('cookie-parser');
+const cors = require('cors');
 const { errors, celebrate, Joi } = require('celebrate');
 const { login, createUser } = require('./controllers/users');
 const usersRouter = require('./routes/users');
@@ -11,27 +10,25 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 require('dotenv').config();
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 
 const app = express();
 
 const whitelist = [
   'https://mesto.abanina.nomoredomains.monster',
   'http://mesto.abanina.nomoredomains.monster',
-  'http://localhost:3000'
+  'http://localhost:3000',
 ];
 
-var corsOptions = {
+const corsOptions = {
   origin: (origin, callback) => {
-    console.log(`origin='${origin}'`);
     if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true)
+      callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'))
+      callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true
-}
+};
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -40,7 +37,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
