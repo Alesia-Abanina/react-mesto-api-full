@@ -1,8 +1,8 @@
 {
   "name": "express-mesto",
   "version": "1.0.0",
-  "description": "## Директории",
-  "main": "index.js",
+  "description": "Project Mesto - backend",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "npx eslint .",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alesia-Abanina/express-mesto.git"
+    "url": "git+https://github.com/Alesia-Abanina/react-mesto-api-full.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Alesia Abanina",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Alesia-Abanina/express-mesto/issues"
+    "url": "https://github.com/Alesia-Abanina/react-mesto-api-full/issues"
   },
-  "homepage": "https://github.com/Alesia-Abanina/express-mesto#readme",
+  "homepage": "https://github.com/Alesia-Abanina/react-mesto-api-full#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "celebrate": "^14.0.0",
