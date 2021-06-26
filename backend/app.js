@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const { errors, celebrate, Joi } = require('celebrate');
 const validator = require('validator');
+const NotFoundError = require('./errors/not-found-err');
 const { login, createUser } = require('./controllers/users');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
@@ -77,9 +78,9 @@ app.use(auth);
 
 app.use('/users', usersRouter);
 app.use('/cards', cardsRouter);
-app.use((req, res) => res.status(404).send({
-  message: 'Ресурс не найден. Проверьте URL и метод запроса',
-}));
+app.use(() => {
+  throw new NotFoundError('Ресурс не найден. Проверьте URL и метод запроса');
+});
 
 app.use(errorLogger);
 
