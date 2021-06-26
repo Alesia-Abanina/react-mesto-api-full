@@ -1,11 +1,12 @@
 const Card = require('../models/card');
 const NotFoundError = require('../errors/not-found-err');
 const WrongUserError = require('../errors/wrong-user-err');
+const getError = require('../errors/error-handler');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send(cards.reverse()))
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.createCard = (req, res, next) => {
@@ -13,7 +14,7 @@ module.exports.createCard = (req, res, next) => {
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.send(card))
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.deleteCardById = (req, res, next) => {
@@ -33,7 +34,7 @@ module.exports.deleteCardById = (req, res, next) => {
           res.send({ message: 'Пост удалён' });
         });
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.likeCard = (req, res, next) => {
@@ -44,7 +45,7 @@ module.exports.likeCard = (req, res, next) => {
       }
       res.send(card);
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.dislikeCard = (req, res, next) => {
@@ -55,5 +56,5 @@ module.exports.dislikeCard = (req, res, next) => {
       }
       res.send(card);
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };

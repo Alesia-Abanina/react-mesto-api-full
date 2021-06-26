@@ -59,6 +59,7 @@ app.post('/signin', celebrate({
     password: Joi.string().required(),
   }),
 }), login);
+
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
@@ -87,13 +88,10 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use((err, req, res, next) => {
-  if (err.name === 'ValidationError' || err.name === 'CastError') {
-    res.status(400).send({ message: 'Переданы некорректные данные' });
-  } else if (err.statusCode) {
-    res.status(err.statusCode).send({ message: err.message });
-  } else {
-    res.status(500).send({ message: 'На сервере произошла ошибка' });
-  }
+  const status = err.statusCode || 500;
+  const { message } = err;
+  res.status(status).send({ message: message || 'На сервере произошла ошибка' });
+  return next();
 });
 
 app.listen(PORT, () => {

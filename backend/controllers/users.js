@@ -4,11 +4,12 @@ const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const ConflictError = require('../errors/confict-err');
 const AuthError = require('../errors/auth-err');
+const getError = require('../errors/error-handler');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send(users))
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.getUserById = (req, res, next) => {
@@ -19,7 +20,7 @@ module.exports.getUserById = (req, res, next) => {
       }
       res.send(user);
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.getProfile = (req, res, next) => {
@@ -30,7 +31,7 @@ module.exports.getProfile = (req, res, next) => {
       }
       res.send(user);
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.createUser = (req, res, next) => {
@@ -57,7 +58,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.name === 'MongoError' && err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже зарегистрирован'));
       }
-      next(err);
+      next(getError(err));
     });
 };
 
@@ -71,7 +72,7 @@ module.exports.updateUser = (req, res, next) => {
       }
       res.send(user);
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.updateAvatar = (req, res, next) => {
@@ -84,7 +85,7 @@ module.exports.updateAvatar = (req, res, next) => {
       }
       res.send(user);
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
 
 module.exports.login = (req, res, next) => {
@@ -103,5 +104,5 @@ module.exports.login = (req, res, next) => {
 
       res.status(201).send({ token });
     })
-    .catch(next);
+    .catch((err) => next(getError(err)));
 };
